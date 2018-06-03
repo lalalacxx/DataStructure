@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include"sort.h"
 #include"swap.h"
+#include"stack.h"
 ////////////////////////////////////
 //快速排序的递归版本
 ////////////////////////////////////
@@ -13,7 +14,7 @@ int Partion(int arr[],int beg,int end)
     }
     int left = beg;
     int right = end-1;
-    //q取数组的最后一个元素作为基准值
+    //取数组的最后一个元素作为基准值
     int key = arr[right];
     while(left < right)
     {
@@ -33,7 +34,7 @@ int Partion(int arr[],int beg,int end)
         }
     }
     //最后把left指向的位置和基准值的位置进行交换
-    swap(&arr[left],&arr[right]);
+    swap(&arr[left],&arr[end-1]);
     return left;
 }
 //挖坑法
@@ -87,7 +88,7 @@ void _QuickSort(int arr[],int beg,int end)
     //[mid+1,end)右区间
     //左区间的所有元素一定都小于等于右区间的所有元素
     int mid = 0;
-    mid = Partion(arr,beg,mid);
+    mid = Partion(arr,beg,end);
     _QuickSort(arr,beg,mid);
     _QuickSort(arr,mid+1,end);
 }
@@ -101,4 +102,59 @@ void QuickSort(int arr[],int len)
     }
     //[0,len)
     _QuickSort(arr,0,len);
+}
+
+///////////////////////////////////
+//非递归版本
+///////////////////////////////////
+void QuickSortByLoop(int arr[],int len)
+{
+    if(len <= 1)
+    {
+        //不需要排序
+        return;
+    }
+    Stack stack;
+    StackInit(&stack);
+    int beg = 0;
+    int end = len;
+    //需要注意的是我们这里每次入栈总是入栈两次
+    //即我们入栈了一对儿值。而这一对值就是一个区间
+    //[beg,end)
+    StackPush(&stack,beg);
+    StackPush(&stack,end);
+    while(1)
+    {
+        //取栈顶元素
+        //由于入栈时的一对值是一个区间
+        //所以后入展的一定是该区间的右边范围值
+        //即该区间的结束位置
+        int ret = StackTop(&stack,&end);
+        if(ret == 0)
+        {
+            //栈为空，说明快速排序就结束了
+            break;
+        }
+        //走到这里说明有区间待排序
+        //所以将该栈顶元素弹出
+        StackPop(&stack);
+        //再取栈顶元素就取到该区间的左边结束位置的值
+        StackTop(&stack,&beg);
+        //[beg,end)相当于是即将要进行快速排序
+        //进行整理的区间
+        if(end-beg <= 1)
+        {
+            //此时该区间内有吗有一个元素要么一个元素都没有
+            //因此不需要排序，直接进行下一趟循环
+            continue;
+        }
+        //整理该区间
+        int mid = Partion(arr,beg,end);
+        //在继续将区间压栈，然后进行下一趟循环
+        //[beg,mid),[mid+1,end]
+        StackPush(&stack,beg);
+        StackPush(&stack,mid);
+        StackPush(&stack,mid+1);
+        StackPush(&stack,end);
+    }
 }
