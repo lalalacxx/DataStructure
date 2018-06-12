@@ -1335,7 +1335,47 @@ void TestUnionSet()
 	linklistPrint(new_head);
 
 }
-
+LinkNode *removeNthFromEnd(LinkNode *head,int n)
+{
+    if(head == NULL)
+    {
+        return NULL;
+    }
+    LinkNode *front = head;
+    LinkNode *back = head;
+    int  i = 0;
+    for(i = n-1;i > 0;i--)
+    {
+        front = front->next;
+    }
+    LinkNode *front_back = NULL;
+    while(front->next != NULL)
+    {
+        front = front->next;
+        front_back = back;
+        back = back->next;
+    }
+    LinkNode *to_remove = back;
+    front_back->next = to_remove->next;
+    return head;
+}
+void test()
+{
+	LinkNode *new_head1;
+	linklistInit(&new_head1);
+	LinkNode *a = CreateNode('a');
+	LinkNode *d = CreateNode('d');
+	LinkNode *f = CreateNode('f');
+	LinkNode *i = CreateNode('i');
+	new_head1 = a;
+	a->next = d;
+	d->next = f;
+	f->next = i;
+	i->next = NULL;
+	linklistPrint(new_head1);
+    LinkNode *ret = removeNthFromEnd(new_head1,2);
+    linklistPrint(ret);
+}
 
 int main()
 {
@@ -1369,6 +1409,7 @@ int main()
 	//TestHasCrossWithCycleNode();
 	TestUnionSet();
 	TestJosephCycle();
+    test();
 	return 0;
 }
 
