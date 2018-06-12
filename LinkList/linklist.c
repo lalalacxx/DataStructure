@@ -52,12 +52,12 @@ LinkNode *linklistPushBack(LinkNode **head,LinkType value)
 {
 	if(head == NULL)
 	{
-		return;
+		return NULL;
 	}
 	if(*head == NULL)
 	{
 		*head = CreateNode(value);
-		return;
+		return *head;
 	}
 	LinkNode *cur = *head;
 	while(cur->next != NULL)
@@ -144,7 +144,7 @@ LinkNode *linklistFind(LinkNode *head,LinkType to_find)
 	LinkNode *find = head;
 	if(head == NULL)
 	{
-		return;
+		return NULL;
 	}
 	else
 	{
@@ -503,7 +503,7 @@ LinkNode *FindLastKNode(LinkNode *head,size_t k)
 	}
 	LinkNode *front = head;
 	LinkNode *back = head;
-	int i = 0;
+	size_t i = 0;
 	for(;i < k-1;i++)
 	{
 		front = front->next;
@@ -744,8 +744,6 @@ LinkNode *HasCrossWithCycleNode(LinkNode *head1,LinkNode *head2)
 	}
 	LinkNode *cur1 = head1;
 	LinkNode *cur2 = head2;
-	LinkNode *meet_node1 = HasCycle(head1);
-	LinkNode *meet_node2 = HasCycle(head2);
 	LinkNode *Entry1 = GetCycleEntry(head1);
 	LinkNode *Entry2 = GetCycleEntry(head2);
 	
@@ -1329,8 +1327,8 @@ void TestUnionSet()
 	new_head2 = b;
 	b->next = dd;
 	dd->next = h;
-	h->next = i;
-	i->next = NULL;
+	h->next = ii;
+	ii->next = NULL;
 	linklistPrint(new_head2);
 	
 	LinkNode *new_head = UnionSet(new_head1,new_head2);
