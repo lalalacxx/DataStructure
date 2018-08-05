@@ -183,7 +183,7 @@ int QueueFront(Queue *queue,DataType *front)
         //非法输入
         return 0;
     }
-    //将output（用于出队列的栈）中的元素倒腾到input（用于入队列的栈）中
+    //将input（用于入队列的栈）中的元素倒腾到output（用于出队列的栈）中
     while(1)
     {
         DataType front;
@@ -195,10 +195,10 @@ int QueueFront(Queue *queue,DataType *front)
         }
         //将input中的元素出栈
         StackPop(&queue->input);
-        //将output（用于出队列的栈）中的栈顶元素插入到input（用于入队列的栈）中 
+        //将input（用于入队列的栈）中的栈顶元素插入到output（用于出队列的栈）中 
         StackPush(&queue->output,front);
     }
-    //取用于入队列的栈的栈首元素（即取出队首元素）
+    //取用于出队列的栈的栈首元素（即取出队首元素）
     int ret = StackGetTop(&queue->output,front);
     return ret;
 }
