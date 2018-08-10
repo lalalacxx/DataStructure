@@ -1441,7 +1441,6 @@ void TestrotateRight()
     LinkNode *ret = rotateRight(new_head1,2);
     linklistPrint(ret);
 }
-
 int main()
 {
 	TestPushBack();
