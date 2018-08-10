@@ -1359,8 +1359,9 @@ LinkNode *removeNthFromEnd(LinkNode *head,int n)
     front_back->next = to_remove->next;
     return head;
 }
-void test()
+void TestremoveNthFromEnd()
 {
+	Test_Header;
 	LinkNode *new_head1;
 	linklistInit(&new_head1);
 	LinkNode *a = CreateNode('a');
@@ -1374,6 +1375,70 @@ void test()
 	i->next = NULL;
 	linklistPrint(new_head1);
     LinkNode *ret = removeNthFromEnd(new_head1,2);
+    linklistPrint(ret);
+}
+
+
+LinkNode *rotateRight(LinkNode *head, int k)
+{
+    if(head == NULL)
+    {
+        return NULL;
+    }
+    LinkNode *last_node = head;
+    LinkNode *new_head = head;
+    int i = 0;
+    for(;i < k-1;i++)
+    {
+        //先将last_node移动k-1步
+        last_node = last_node->next;
+    }
+    //定义一个变量用于保存最终的链表的最后一个节点
+    //也就是新链表的头结点的前一个
+    LinkNode *new_tail = NULL;
+    while(last_node->next !=  NULL)
+    {
+        //在循环中，将last_node一步一步往后移
+        //同时将new_head往后移，并且在移动之前把节点保存到new_tail
+        last_node = last_node->next;
+        new_tail = new_head;
+        new_head = new_head->next;
+    }
+    //循环结束，new_head就到达了倒数第k个节点，
+    //该节点也就是我们新链表的头结点
+    //此时new_tail在new_head的前一个节点，
+    //该节点就是最终新链表的最后一个节点
+    //此时last_node在旧链表的最后一个节点
+    //该位置也就是我们需要将其指向旧链表的头部
+    //从而完成翻转的效果
+    
+    //将last_node的next指向旧链表的头部
+    last_node->next = head;
+    //更换链表的头节点为我们找到的新的头节点
+    head = new_head;
+    //将我们找到的新链表的尾节点的next指向空
+    new_tail->next = NULL;
+    //至此翻转功能完成
+    return head;
+}
+void TestrotateRight()
+{
+	Test_Header;
+	LinkNode *new_head1;
+	linklistInit(&new_head1);
+	LinkNode *a = CreateNode('a');
+	LinkNode *b = CreateNode('b');
+	LinkNode *c = CreateNode('c');
+	LinkNode *d = CreateNode('d');
+	LinkNode *e = CreateNode('e');
+	new_head1 = a;
+	a->next = b;
+	b->next = c;
+	c->next = d;
+	d->next = e;
+    e->next = NULL;
+	linklistPrint(new_head1);
+    LinkNode *ret = rotateRight(new_head1,2);
     linklistPrint(ret);
 }
 
@@ -1409,12 +1474,10 @@ int main()
 	//TestHasCrossWithCycleNode();
 	TestUnionSet();
 	TestJosephCycle();
-    test();
+
+    TestremoveNthFromEnd();
+    
+    TestrotateRight();
+
 	return 0;
 }
-
-
-
-
-
-
