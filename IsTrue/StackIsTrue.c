@@ -13,7 +13,6 @@ int StackIsTrue(Stack *stack,char *arr1,char *arr2)
     //定义两个指针分别指向两个数组的第一个元素
     char *input = arr1;
     char *output = arr2;
-    int ret = 0;
     while(*input != '\0')
     {
         //将input当前指向的元素入栈
@@ -30,11 +29,7 @@ int StackIsTrue(Stack *stack,char *arr1,char *arr2)
             output++;
             //然后再取数组1中的下一个栈顶元素
             //再次与output当前所指向的元素进行比较
-            ret = StackTop(stack,&top);
-            //if(ret == 0)
-            //{
-             //   break;
-            //}
+            StackTop(stack,&top);
         }
         //走到这一步说明当前栈顶元素与output当前所指向的元素不相等
         input++;
