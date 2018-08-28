@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include"swap.h"
+#include "swap.h"
 
 void InsertSort(int arr[],int len)
 {
@@ -20,9 +20,9 @@ void InsertSort(int arr[],int len)
             //此时初始情况下就是拿线性表的最后一个元素
             //和bound_value比较
             //因此此处arr[cur-1]的cur-1取决于cur的初始位置
-            if(arr[cur-1] > arr[cur])
+            if(arr[cur-1] > bound_value)
             {
-                swap(&arr[cur],&arr[cur-1]);
+                arr[cur] = arr[cur-1];
             }
             else
             {
@@ -34,4 +34,16 @@ void InsertSort(int arr[],int len)
         //或者是cur回退走到了最开始（即cur=0）
         arr[cur] = bound_value;
     }
+}
+int main()
+{
+    int arr[] = {4,3,2,1};
+    InsertSort(arr,4);
+    int i = 0;
+    for(;i < 4;i++)
+    {
+        printf("%d ",arr[i]);
+    }
+    printf("\n");
+    return 0;
 }
