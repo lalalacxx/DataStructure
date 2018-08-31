@@ -12,85 +12,107 @@ void seqlistInit(SeqList *seqlist){
 	}
 	seqlist->size = 0;
 }
-
-void ifFull(SeqList *seqlist){
-	if(seqlist == NULL){
-		return;
-	}
-	if(seqlist->size >= seqlistMaxNum){
-		printf("the seqlist is full\n");
-	}
+//判断线性表是否为满，满则返回1，不满返回0，非法输入返回-1
+int ifFull(SeqList *seqlist){
+	if(seqlist == NULL)
+        //非法输入
+		return -1;
+	if(seqlist->size >= seqlistMaxNum)
+        return 1;
+    return 0;
 }
-
-void ifEmpty(SeqList *seqlist){
-	if(seqlist == NULL){
-		return;
-	}
-	if(seqlist->size == 0){
-		printf("the seqlist is empty\n");
-	}
+//判断线性表是否为空，为空返回1，不为空返回0,非法输入返回-1
+int ifEmpty(SeqList *seqlist){
+	if(seqlist == NULL)
+		return -1;
+	if(seqlist->size == 0)
+		return 1;
+    return 0;
 }
 
 void seqlistPrint(SeqList *seqlist){
 	int i = 0;
 	if(seqlist == NULL){
-		return;
+		//非法输入
+        return;
 	}
-	ifEmpty(seqlist);
+    //如果为空则不需要打印
+	if(ifEmpty(seqlist) == 1)
+        return;
 	for(;i < seqlist->size;i++){
 		printf("%d ",seqlist->data[i]);
 	}
 	printf("\n");
 }
 
+//尾插
 void seqlistPushBack(SeqList *seqlist,int data){
 	if(seqlist == NULL){
 		return;
 	}
-	ifFull(seqlist);
+    //如果线性表满了则不能插入
+	if(ifFull(seqlist) == 1)
+        return;
+    //可以插入    则将线性表的有效元素个数+1
 	++seqlist->size;
+    //在尾插一个元素
 	seqlist->data[seqlist->size-1] = data;
 }
-
+//尾删
 void seqlistPopBack(SeqList *seqlist){
 	if(seqlist == NULL){
 		return;
 	}
-	ifEmpty(seqlist);
+    //如果线性表是空的则没有元素可以删除
+	if(ifEmpty(seqlist) == 1)
+        return;
+    //可以删除则就将线性表中的有效元素个数-1即可
 	--seqlist->size;
 }
-
+//头插
 void seqlistPushFront(SeqList *seqlist,int data){
 	int i = 0;
 	if(seqlist == NULL){
 		return;
 	}
-	ifFull(seqlist);
-	for(i = seqlist->size-1;i >= 0;i--){
+    //如果线性表满了则不能插入
+	if(ifFull(seqlist) == 1)
+        return;
+	//先将所有元素往后移动一个位置
+    for(i = seqlist->size-1;i >= 0;i--){
 		seqlist->data[i+1] = seqlist->data[i];
 	}
+    //再将有效元素个数+1
 	++seqlist->size;
+    //进行头插
 	seqlist->data[0] = data;
 }
-
+//头删
 void seqlistPopFront(SeqList *seqlist){
 	int i = 0;
 	if(seqlist == NULL){
 		return;
 	}
-	ifEmpty(seqlist);
+    //如果线性表为空则没有元素可以删除
+	if(ifEmpty(seqlist) == 1)
+        return;
+    //可以删除
+    //则将首元素之后的所有元素往前移动一个位置
 	for(;i < seqlist->size-1;i++){
 		seqlist->data[i] = seqlist->data[i+1];
 	}
+    //在将有效元素个数-1即可
 	--seqlist->size;
 }
-
+//插入
 void seqlistInsert(SeqList *seqlist,int pos,int data){
-	int i = 0;
+	size_t i = 0;
 	if(seqlist == NULL){
 		return;
 	}
-	ifFull(seqlist);
+    //如果线性表满了则不能插入
+	if(ifFull(seqlist) == 1)
+        return;
 	if(pos > seqlist->size){
 		return;
 	}
@@ -265,7 +287,7 @@ void TestInit()
 	head;
 	printf("expect:0\n");
 	seqlistInit(&seqlist);
-	printf("%lu\n",seqlist.size);
+	printf("%d\n",seqlist.size);
 }
 
 void TestPushBack()
